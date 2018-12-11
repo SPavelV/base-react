@@ -2,12 +2,13 @@ import React,{Component} from 'react'
 import Comment from './Comment'
 
 export default class CommentsList extends Component{
-  constructor(props) {
-   super(props);
-   this.state = {
-     isOpen: false
-   }
-  }
+  static defaultProps = {
+    comments: []
+  };
+
+  state = {
+    isOpen: false
+  };
 
   render() {
     const {isOpen} = this.state;
@@ -16,14 +17,16 @@ export default class CommentsList extends Component{
         <button onClick={this.toggleOpen}>
           {isOpen ? 'Close comments' : 'Open comments'}
         </button>
-        {this.getList()}
+        {this.getBody()}
       </div>
     )
   }
 
-  getList() {
+  getBody() {
     if(!this.state.isOpen) return null;
     const {comments} = this.props;
+
+    if(!comments || !comments.length) return <p>No comments yet</p>
 
     const commentElements = comments.map( (comment) =>
       <li key={comment.id}>
