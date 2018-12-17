@@ -1,19 +1,21 @@
 import React, {Component} from 'react'
 import Article from './Article'
-import CommentsList from "./CommentsList";
+import CommentsList from './CommentsList'
+import accordion from '../decorators/accordion'
 
-export default class ArticleList extends Component {
-  state = {
-    openArticleId: null
-  };
+class ArticleList extends Component {
+  // state = {
+  //   openArticleId: null
+  // };
 
   render() {
+    const {openId, toggleOpenAccordion} = this.props;
     const articleElements = this.props.articles.map(article =>
       <li key={article.id}>
         <Article
           article={article}
-          isOpen={article.id === this.state.openArticleId}
-          toggleOpen = {this.toggleOpenArticle.bind(this, article.id)}
+          isOpen={article.id === openId}
+          toggleOpen = {toggleOpenAccordion(article.id)}
         />
         <CommentsList comments={this.props.comments}/>
       </li>);
@@ -24,8 +26,10 @@ export default class ArticleList extends Component {
     )
   }
 
-  toggleOpenArticle(openArticleId) {
-    this.setState({ openArticleId })
-  }
+  // toggleOpenArticle(openArticleId) {
+  //   this.setState({ openArticleId })
+  // }
 
 }
+
+export default accordion(ArticleList);
